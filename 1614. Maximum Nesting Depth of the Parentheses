@@ -1,0 +1,33 @@
+class Solution {
+public:
+    int maxDepth(string s) {
+        stack<char> st;  // Stack to keep track of opening parentheses
+        int ans = 0;  // Variable to store the maximum depth
+        bool flag = false;  // Flag to indicate if a digit has been encountered inside parentheses
+        int cnt = 0;  // Counter to keep track of current depth
+        
+        // Loop through each character in the string
+        for (int i = 0; i < s.length(); i++) {
+            if (s[i] == '(') {
+                st.push('(');  // Push '(' onto the stack
+                cnt++;  // Increment depth counter
+            }
+            if (s[i] >= '0' && s[i] <= '9') {
+                flag = true;  // Set flag to true if a digit is encountered inside parentheses
+            }
+            if (s[i] == ')') {
+                st.pop();  // Pop '(' from the stack when encountering ')'
+                ans = max(ans, cnt);  // Update maximum depth
+                cnt--;  // Decrement depth counter
+            }
+            // If the stack is empty and a digit has been encountered inside parentheses,
+            // reset depth counter and flag
+            if (st.empty() && flag) {
+                cnt = 0;
+                flag = false;
+            }
+        }
+
+        return ans;  // Return the maximum depth
+    }
+};
