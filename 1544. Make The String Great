@@ -1,0 +1,25 @@
+class Solution {
+public:
+    string makeGood(string s) {
+        string ans=""; // Initialize an empty string to store the final result
+        stack<char> st; // Initialize a stack to store characters
+        
+        // Loop through each character in the input string
+        for(int i=0;i<s.length();i++) {
+            // If the stack is not empty and the current character cancels the top of the stack
+            if(st.empty()!=true&&(st.top()==s[i]-32||st.top()==s[i]+32))
+                st.pop(); // Pop the character from the stack (cancellation happens)
+            else
+                st.push(s[i]); // Push the character onto the stack (no cancellation)
+        }
+        
+        // Pop characters from the stack and form the final result string
+        while(!st.empty()) {
+            ans+=st.top(); // Append the top character of the stack to the result string
+            st.pop(); // Pop the character from the stack
+        }
+        
+        reverse(ans.begin(),ans.end()); // Reverse the result string
+        return ans; // Return the final result
+    }
+};
