@@ -1,0 +1,49 @@
+class Solution {
+public:
+    string minRemoveToMakeValid(string s) {
+        // Stack to keep track of opening brackets and their positions
+        stack<pair<char,int>>st;
+        
+        // Vector to store characters with invalid ones replaced by '#'
+        vector<char>arr(s.length(),'#');
+        
+        // Final answer string
+        string ans="";
+        
+        // Iterate through the string
+        for(int i=0;i<s.length();i++)
+        {
+            // If character is not a bracket, just copy it to result array
+            if(s[i]!=')'&&s[i]!='(')
+                arr[i]=s[i];
+
+            // If character is an opening bracket, push it onto the stack
+            if(s[i]=='(')
+            {
+                st.push({s[i],i});
+            }
+            // If character is a closing bracket
+            if(s[i]==')')
+            {
+                // If there are corresponding opening brackets in the stack
+                if(!st.empty())
+                {
+                    arr[i]=s[i]; // Copy the closing bracket to the result array
+                    auto top=st.top(); // Get the topmost opening bracket from the stack
+                    st.pop(); // Remove it from the stack
+                    arr[top.second]=top.first; // Replace the corresponding opening bracket position with the bracket
+                }
+            }
+        }
+
+        // Construct the final answer string from the result array, ignoring '#' characters
+        for(int i=0;i<arr.size();i++)
+        {
+            if(arr[i]!='#')
+                ans+=arr[i];
+        }
+
+        // Return the final answer string
+        return ans;
+    }
+};
