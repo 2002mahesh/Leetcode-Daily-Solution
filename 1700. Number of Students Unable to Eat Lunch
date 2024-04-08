@@ -1,0 +1,40 @@
+class Solution {
+public:
+    int countStudents(vector<int>& st, vector<int>& sa) {
+        // Create a stack to represent students who haven't been served yet
+        stack<int> s;
+        // Create a queue to represent sandwiches
+        queue<int> q;
+
+        // Push each student onto the queue
+        for(auto a:st)
+            q.push(a);
+        
+        // Push each sandwich onto the stack
+        for(int i=sa.size()-1;i>=0;i--) {
+            s.push(sa[i]);
+        }
+
+        // Process the students and sandwiches
+        while(!q.empty()) {
+            int cnt=0;
+            // Check if the top sandwich matches the front student in the queue
+            while(s.top()!=q.front()) {
+                // If not, move the front student to the back of the queue
+                int front=q.front();
+                q.pop();
+                q.push(front);
+                cnt++;
+                // If all students are checked and no match is found, return remaining student count
+                if(cnt==q.size())
+                    return q.size();
+            }
+            // If a match is found, pop the sandwich and the served student
+            s.pop();
+            q.pop();
+        }
+
+        // If all students are served, return 0
+        return 0;
+    }
+};
