@@ -1,0 +1,58 @@
+class Solution {
+public:
+    bool checkValidString(string s) {
+        // Stack to store indices of opening parentheses
+        stack<int> par;
+        // Stack to store indices of asterisks
+        stack<int> star;
+
+        // Loop through the string
+        for(int i=0; i<s.length(); i++) {
+            // If the character is an opening parenthesis, push its index to 'par' stack
+            if(s[i] == '(')
+                par.push(i);
+            // If the character is an asterisk, push its index to 'star' stack
+            if(s[i] == '*')
+                star.push(i);
+
+            // If the character is a closing parenthesis
+            if(s[i] == ')') {
+                // If there are unmatched opening parentheses, pop one
+                if(!par.empty())
+                    par.pop();
+                // If there are unmatched asterisks, pop one
+                else if(par.empty() && !star.empty())
+                    star.pop();
+                // If there are neither opening parentheses nor asterisks, return false
+                else if(par.empty() && star.empty())
+                    return false;
+            }
+        }
+
+        // If all opening parentheses are matched
+        if(par.empty())
+            return true;
+        else {
+            // While there are unmatched opening parentheses
+            while(!par.empty()) {
+                // If there are unmatched asterisks
+                if(!star.empty()) {
+                    // If the asterisk's index is greater than the opening parenthesis' index, pop both
+                    if(star.top() > par.top()) {
+                        star.pop();
+                        par.pop();
+                    }
+                    // If the asterisk's index is not greater, return false
+                    else
+                        return false;
+                }
+                // If there are no more asterisks but there are still unmatched opening parentheses, return false
+                else
+                    return false;
+            }
+
+            // If all unmatched opening parentheses are matched by asterisks
+            return true;
+        }
+    }
+};
