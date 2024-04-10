@@ -6,7 +6,7 @@ public:
         bool flag = false;  // Flag to indicate if a digit has been encountered inside parentheses
         int cnt = 0;  // Counter to keep track of current depth
         
-        // Loop through each character in the string
+        // Loop through each character in the string 
         for (int i = 0; i < s.length(); i++) {
             if (s[i] == '(') {
                 st.push('(');  // Push '(' onto the stack
