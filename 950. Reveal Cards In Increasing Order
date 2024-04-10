@@ -1,0 +1,45 @@
+#include <vector>
+#include <queue>
+#include <algorithm>
+
+class Solution {
+public:
+    vector<int> deckRevealedIncreasing(vector<int>& deck) {
+        // Create a queue to store the indices of the deck
+        queue<int> q;
+        
+        // Sort the deck in increasing order
+        sort(deck.begin(), deck.end());
+        
+        // Initialize a vector to store the resulting arrangement
+        vector<int> ans(deck.size());
+        
+        // Populate the queue with indices of the deck
+        for (int i = 0; i < deck.size(); i++)
+            q.push(i);
+        
+        // Initialize a counter for iterating over the sorted deck
+        int i = 0;
+        
+        // Iterate until the queue is empty
+        while (!q.empty()) {
+            // Assign the current smallest card from the sorted deck
+            // to the position indicated by the front index in the queue
+            ans[q.front()] = deck[i++];
+            
+            // Remove the front element from the queue
+            q.pop();
+            
+            // If the queue is not empty after removal,
+            // move the front element to the back of the queue
+            if (!q.empty()) {
+                int front = q.front();
+                q.pop();
+                q.push(front);
+            }
+        }
+
+        // Return the resulting arrangement of the deck
+        return ans;
+    }
+};
